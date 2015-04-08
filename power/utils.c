@@ -10,7 +10,7 @@
  *       copyright notice, this list of conditions and the following
  *       disclaimer in the documentation and/or other materials provided
  *       with the distribution.
- *     * Neither the name of Code Aurora Forum, Inc. nor the names of its
+ *     * Neither the name of The Linux Foundation nor the names of its
  *       contributors may be used to endorse or promote products derived
  *       from this software without specific prior written permission.
  *
@@ -31,6 +31,8 @@
 #include <dlfcn.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "utils.h"
 #include "list.h"
@@ -39,6 +41,13 @@
 
 #define LOG_TAG "QCOM PowerHAL"
 #include <utils/Log.h>
+
+char scaling_gov_path[4][80] ={
+    "sys/devices/system/cpu/cpu0/cpufreq/scaling_governor",
+    "sys/devices/system/cpu/cpu1/cpufreq/scaling_governor",
+    "sys/devices/system/cpu/cpu2/cpufreq/scaling_governor",
+    "sys/devices/system/cpu/cpu3/cpufreq/scaling_governor"
+};
 
 static void *qcopt_handle;
 static int (*perf_lock_acq)(unsigned long handle, int duration,
@@ -167,6 +176,24 @@ int get_scaling_governor(char governor[], int size)
         while (len >= 0 && (governor[len] == '\n' || governor[len] == '\r'))
             governor[len--] = '\0';
     }
+
+    return 0;
+}
+
+int get_scaling_governor_check_cores(char governor[], int size,int core_num)
+{
+
+    if (sysfs_read(scaling_gov_path[core_num], governor,
+                size) == -1) {
+        // Can't obtain the scaling governor. Return.
+        return -1;
+    }
+
+    // Strip newline at the end.
+    int len = strlen(governor);
+    len--;
+    while (len >= 0 && (governor[len] == '\n' || governor[len] == '\r'))
+        governor[len--] = '\0';
 
     return 0;
 }
