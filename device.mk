@@ -18,6 +18,11 @@ LOCAL_PATH := device/oppo/r7
 
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
+# Prebuilt kernel and DT images
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/dt.img:dt.img \
+    $(LOCAL_PATH)/zImage:kernel
+
 # Ramdisk
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ramdisk/fstab.qcom:root/fstab.qcom \
