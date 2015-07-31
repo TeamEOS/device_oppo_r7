@@ -39,6 +39,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ramdisk/init.qcom.usb.sh:root/init.qcom.usb.sh \
     $(LOCAL_PATH)/ramdisk/init.qcom.wcnss3660.sh:root/init.qcom.wcnss3660.sh \
     $(LOCAL_PATH)/ramdisk/init.target.rc:root/init.target.rc \
+    $(LOCAL_PATH)/ramdisk/twrp.fstab:recovery/root/etc/twrp.fstab \
     $(LOCAL_PATH)/ramdisk/ueventd.qcom.rc:root/ueventd.qcom.rc
 
 # These are the hardware-specific features
