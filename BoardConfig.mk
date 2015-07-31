@@ -45,6 +45,9 @@ BOARD_MKBOOTIMG_ARGS  := --ramdisk_offset 0x02000000 --dt $(LOCAL_PATH)/dt.img -
 #TARGET_KERNEL_SOURCE := kernel/oppo/r7
 TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/zImage
 
+# Include path
+TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
+
 # Qualcomm BSP
 BOARD_USES_QCOM_HARDWARE := true
 TARGET_USES_QCOM_BSP := true
