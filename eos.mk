@@ -1,5 +1,3 @@
-$(call inherit-product, device/oppo/r7/device.mk)
-
 # Inherit some common EOS stuff.
 $(call inherit-product, vendor/eos/config/common_full_phone.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
