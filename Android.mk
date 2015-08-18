@@ -17,8 +17,10 @@
 LOCAL_PATH := $(call my-dir)
 
 ifneq ($(filter r7 r7plus, $(TARGET_DEVICE)),)
-
 include $(call all-makefiles-under,$(LOCAL_PATH))
+endif
+
+ifeq ($(TARGET_DEVICE),r7)
 
 # Symlink firmware from /persist
 FIRMWARE_IMAGES := cmnlib.b00 cmnlib.b01 cmnlib.b02 cmnlib.b03 cmnlib.mdt \
