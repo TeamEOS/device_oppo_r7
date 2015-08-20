@@ -36,7 +36,7 @@ on init
     symlink /storage/emulated/legacy /storage/sdcard0
     
     #ifdef VENDOR_EDIT
-    #Junren_Jie@EXP.sysFramework, 2014/11/28, Add for some apk wants to read 0 path
+    #wangzequan@EXP.sysFramework, 2014/11/28, Add for some apk wants to read 0 path
     symlink /storage/emulated/legacy /storage/emulated/0
     #endif /* VENDOR_EDIT */
     

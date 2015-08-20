@@ -20,10 +20,10 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 # Ramdisk
 PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/ramdisk/fstab.qcom:root/fstab.qcom \
     $(LOCAL_PATH)/ramdisk/init.oppo.init.rc:root/init.oppo.init.rc \
     $(LOCAL_PATH)/ramdisk/init.oppo.rc:root/init.oppo.rc \
     $(LOCAL_PATH)/ramdisk/init.oppo.usb.rc:root/init.oppo.usb.rc \
-    $(LOCAL_PATH)/ramdisk/init.qcom.bt.sh:root/init.qcom.bt.sh \
     $(LOCAL_PATH)/ramdisk/init.qcom.class_core.sh:root/init.qcom.class_core.sh \
     $(LOCAL_PATH)/ramdisk/init.qcom.early_boot.sh:root/init.qcom.early_boot.sh \
     $(LOCAL_PATH)/ramdisk/init.qcom.rc:root/init.qcom.rc \

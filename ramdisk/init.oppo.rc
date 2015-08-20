@@ -20,10 +20,8 @@ on boot
 #zhunn@OnLineRD.AirService.RIL, 2015/1/28, Add for cdma card cannot send sms in Yiwu
 	setprop persist.radio.force_on_dc true
 #endif
-
-#ifdef VENDOR_EDIT
 #wangjw@OnLineRD.framework.oppo_debug, 2013/10/22, add for setting dump mode
-on property:persist.sys.oppo.dump=1
+on property:persist.sys.dump=1
 	write /sys/module/msm_poweroff/parameters/download_mode  1
 	write /proc/otrace_on 7978
 	write /sys/bus/msm_subsys/devices/subsys0/restart_level system 
@@ -31,13 +29,18 @@ on property:persist.sys.oppo.dump=1
 	write /sys/bus/msm_subsys/devices/subsys2/restart_level system
 	write /sys/bus/msm_subsys/devices/subsys3/restart_level system
 	
-on property:persist.sys.oppo.dump=0
+on property:persist.sys.dump=0
 	write /sys/module/msm_poweroff/parameters/download_mode  0
 	write /proc/otrace_on 0
 	write /sys/bus/msm_subsys/devices/subsys0/restart_level related
 	write /sys/bus/msm_subsys/devices/subsys1/restart_level related
 	write /sys/bus/msm_subsys/devices/subsys2/restart_level related
 	write /sys/bus/msm_subsys/devices/subsys3/restart_level related
+#endif
+#ifdef VENDOR_EDIT
+#Horn@Swdp.Android.Boot, 2015-04-25, for oppo sepolicy 
+on property:persist.sys.adbroot=1
+   setprop selinux.reload_policy 1
 #endif
 
 #ifdef VENDOR_EDIT
@@ -61,8 +64,10 @@ on property:sys.oppo.cpu_idle=false
 
 #ifdef VENDOR_EDIT  
 #Jevons@OnlineRd.DeviceService.version, 2013/8/15 , add for property self-adaptive
+#ShaoQiang@EXP.SysFramework.Framework, 2015/07/03, Modify for full disk encryption need late_start
 service prop-self-adap /system/bin/sh /init.prop.self_adaptive.sh
-    class main
+    #class main
+    class late_start
     user root
     oneshot
 #endif
@@ -85,14 +90,14 @@ service engineermode-sh /system/bin/sh /init.oppo.engineermode.sh
 #ifdef VENDOR_EDIT
 #hewei@Swdp. Android. boot&charge, 2014/08/05, modify for oppo startup & shutdown animation
 service bootanim /system/bin/bootanimation
-    class main
+    class core
     user root
-    group graphics
+    group media graphics audio 
     disabled
     oneshot   
 service rbootanim /system/bin/bootanimation -r
-    class main
-    user graphics
+    class core
+    user root
     group graphics audio media
     disabled
     oneshot
@@ -118,185 +123,6 @@ service block-mode /system/bin/sh /init.oppo.block.sh
 
 
 #ifdef VENDOR_EDIT
-#boning.li@pdt.framework.oppo_debug, 2014/04/1, add
-
-on property:persist.sys.assert.enable=true
-    start backup_log
-    
-on property:persist.sys.assert.panic=true
-    start backup_log
-
-service backup_log /system/xbin/backup_log
-    user root
-    disabled
-    oneshot 
-
-service logcat_loose /system/bin/logcat  -f /cache/admin/apps/android.txt -r10240 -n 6  -v threadtime *:V
-    user root
-    disabled
-    oneshot 
-    
-service logcat_radio /system/bin/logcat -b radio -f /cache/admin/apps/radio.txt -r4096 -n 1  -v threadtime *:V
-    user root
-    disabled
-    oneshot
-
-service logcat_event /system/bin/logcat -b events -f /cache/admin/apps/events.txt -r4096 -n 1  -v threadtime *:V
-    user root
-    disabled
-    oneshot
-    
-service  grab_netlog /system/xbin/tcpdump -i any -p -s 0 -W 2 -C 10 -w /cache/admin/netlog/tcpdump.pcap -Z root
-    user root
-    disabled
-    oneshot
-
-service klogd_loose /system/xbin/klogd -f /cache/admin/kernel/kinfox.txt -n -x -l 7
-    user root
-    disabled
-    oneshot
-    
-    
-on property:sys.oppo.collectlog=true
-   mkdir /cache/admin 0777 system system
-   mkdir /cache/admin/apps 0777 system system
-   mkdir /cache/admin/kernel 0777 system system
-   mkdir /cache/admin/assertlog 0777 system system
-   mkdir /cache/admin/netlog 0777 system system
-   start logcat_loose
-   start logcat_radio
-   start logcat_event
-   start grab_netlog
-   start klogd_loose
-
-
-service autochmod /system/bin/sh /autochmod.sh
-    class main
-    user root
-    disabled
-
-service ps /system/bin/sh /autochmod.sh "ps"
-    class main
-    user root
-    disabled
-	oneshot
-service top /system/bin/sh /autochmod.sh "top"
-    class main
-    user root
-    disabled
-	oneshot	
-service server_list /system/bin/sh /autochmod.sh "server"
-    class main
-    user root
-    disabled
-	oneshot	
-service dump_sys /system/bin/sh /autochmod.sh "dump"
-    class main
-    user root
-    disabled
-	oneshot
-service dump_state /system/bin/sh /autochmod.sh "dumpstate"
-    class main
-    user root
-    disabled
-	oneshot	
-service dump_power /system/bin/sh /autochmod.sh "power"
-    class main
-    user root
-    disabled
-    oneshot	
-service tranfer /system/bin/sh /autochmod.sh "tranfer"
-    class main
-    user root
-    disabled
-	oneshot
-service logcatsdcard /system/bin/sh /autochmod.sh "main"
-    class main
-    user root
-    disabled
-	oneshot	
-service logcatradio /system/bin/sh /autochmod.sh "radio"
-    class main
-    user root
-    disabled
-	oneshot		
-service logcatevent /system/bin/sh /autochmod.sh "event"
-    class main
-    user root
-    disabled
-	oneshot	
-service logcatkernel /system/bin/sh /autochmod.sh "kernel"
-    class main
-    user root
-    disabled
-	oneshot		
-service cleanlog /system/bin/sh /autochmod.sh "clean"
-    class main
-    user root
-    disabled
-	oneshot	
-
-service  tcpdumplog /system/bin/sh /autochmod.sh "tcpdump"
-    class main
-    user root
-    disabled
-	oneshot
-
-on property:sys.oppo.collectlog.phone=true
-   start logcatsdcard
-   start logcatradio
-   start logcatevent
-   start logcatkernel
-   start tcpdumplog
-
-service  grabsdcard /system/bin/sh /autochmod.sh "sdcard"
-    class main
-    user root
-    disabled
-    oneshot 
-on property:sys.oppo.collectlog.sdcard=true
-   start grabsdcard
-   
-on property:init.svc.fuse_sdcard1=running
-   start grabsdcard  
-   
-on property:sys.oppo.savesdcard=true
-	start logcat_sd
-	start radio_sd
-	start event_sd
-	start kernel_sd
-	start tcpdump_sd
-
-service logcat_sd /system/bin/sh /autochmod.sh "main_sdcard"
-    class main
-    user root
-    disabled
-    oneshot	
-service radio_sd /system/bin/sh /autochmod.sh "radio_sdcard"
-    class main
-    user root
-    disabled
-    oneshot		
-service event_sd /system/bin/sh /autochmod.sh "event_sdcard"
-    class main
-    user root
-    disabled
-    oneshot	
-service kernel_sd /system/bin/sh /autochmod.sh "kernel_sdcard"
-    class main
-    user root
-    disabled
-    oneshot		
-
-service  tcpdump_sd /system/bin/sh /autochmod.sh "tcpdump_sdcard"
-    class main
-    user root
-    disabled
-    oneshot
-#endif /* VENDOR_EDIT */
-
-
-#ifdef VENDOR_EDIT
 #JianRong.Zheng@Swdp.Android.Power, 2014/10/14, Add for root detect
 service rootdetect-sh /system/bin/sh /init.oppo.rootdetect.sh
     class main
@@ -312,24 +138,14 @@ service power-control /system/bin/sh /system/etc/init.oppo.qcom.power.sh &
    group root 
 #endif /* VENDOR_EDIT */
 
-#service insmod_logger /system/bin/insmod /system/lib/modules/logger.ko
-#	user root
-#	onrestart restart zygote
-#	disabled
-#	oneshot
-
-#on property:persist.sys.purity.enable=true
-#	start insmod_logger
-
 #ifdef VENDOR_EDIT
-#Liuli@EXP.SysFramework.Framework, 2015/01/21, Add for fixing first booting can not capture kernel log 
-on property:persist.not.first.boot=""
-   mkdir /cache/admin 0777 system system
-   mkdir /cache/admin/kernel 0777 system system
-   #start klogd_loose
-   setprop persist.not.first.boot true
-   #stop klogd_loose
-#endif /* VENDOR_EDIT */
+#Peirs@Swdp.Android.FrameworkUi, 2014/07/30, add provide a function to indentify the usage of the phone.
+#recommend set in the stage of "on post-fs"
+    chmod 0660 /dev/block/bootdevice/by-name/reserve4
+    chown root system /dev/block/bootdevice/by-name/reserve4
+    chmod 0660 /dev/block/mmcblk0p36
+    chown root system /dev/block/mmcblk0p36
+#endif
 
 #ifdef VENDOR_EDIT
 #Fuchun.Liao@Mobile.BSP.CHG 2015-02-13 add for otg_switch in 14043
@@ -348,3 +164,33 @@ on property:sys.fastcharger=true
 on property:sys.fastcharger=false
 	write /sys/class/power_supply/battery/charger_enable 0                
 #endif
+
+#ifdef VENDOR_EDIT
+#yanbin@Swdp.Android.build&config, 2015/05/05, add for solved ¡°Cloud services -  Backup&recovery £¬failed¡± porting wangyalong¡®s code
+service datasync /system/bin/datasync
+       class main
+       socket datasync stream 0660 root sdcard_rw
+       user root
+       disabled
+on property:oppo.service.datasync.enable=1
+    start datasync
+
+on property:oppo.service.datasync.enable=0
+    stop datasync
+#endif
+
+# Siting.Mo@EXP.SysFramework.Framework 2015/05/04, Add for APSS log
+
+service dumpAPSS_begin /system/bin/sh /autochmod.sh "dumpAPSSlog_start"
+    class main
+    user root
+    disabled
+	  oneshot	
+
+service dumpAPSS_end /system/bin/sh /autochmod.sh "dumpAPSSlog_end"
+    class main
+    user root
+    disabled
+	  oneshot	
+	  
+#endif /* VENDOR_EDIT */

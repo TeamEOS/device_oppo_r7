@@ -78,8 +78,7 @@ for f in /sys/bus/esoc/devices/*; do
 done
 fi
 
-target=`getprop ro.product.device`
-target=${target:0:7}
+target=`getprop ro.board.platform`
 
 #
 # Allow USB enumeration with default PID/VID
@@ -118,17 +117,24 @@ case "$usb_config" in
                    setprop persist.sys.usb.config diag,diag_mdm,diag_mdm2,serial_hsic,serial_hsusb,rmnet_hsic,rmnet_hsusb,mass_storage,adb
               ;;
               *)
-
-						case "$target" in
-			"msm8916")
-								#setprop persist.sys.usb.config diag,serial_smd,rmnet_bam,adb
-								setprop persist.sys.usb.config mtp,mass_storage,adb
-							;;
-							*)
-								#setprop persist.sys.usb.config diag,serial_smd,serial_tty,rmnet_bam,mass_storage,adb
-								setprop persist.sys.usb.config mtp,mass_storage,adb
-							;;
-						esac
+		case "$target" in
+			#LinJie.Xu@Swdp.Android.USB modify for usb config in ftm mode 2014-05-30    
+			#ifndef VENDOR_EDIT
+                        "msm8916")
+                            #setprop persist.sys.usb.config diag,serial_smd,rmnet_bam,adb
+                            setprop persist.sys.usb.config mtp,mass_storage,adb
+                        ;;
+			#endif
+                        "msm8994")
+                            setprop persist.sys.usb.config diag,serial_smd,serial_tty,rmnet_ipa,mass_storage,adb
+                        ;;
+                        "msm8909")
+                            setprop persist.sys.usb.config diag,serial_smd,rmnet_qti_bam,adb
+                        ;;
+                        *)
+                            setprop persist.sys.usb.config diag,serial_smd,serial_tty,rmnet_bam,mass_storage,adb
+                        ;;
+                    esac
               ;;
           esac
           ;;
@@ -137,32 +143,27 @@ case "$usb_config" in
     * ) ;; #USB persist config exists, do nothing
 esac
 
-#ifdef VENDOR_EDIT  
-#jiangyg@pm modify for usb config in ftm mode 2013-11-25
-        ftmmode=`getprop ro.wandrfmode`
-        case "$ftmmode" in
-           "1")
-              setprop persist.sys.usb.config diag,adb
-           ;;
-           "2")
-              setprop persist.sys.usb.config diag,adb
-           ;;
-           * )
-              #ifdef VENDOR_EDIT                 
-              #wangw@OnLineRD.DeviceService, 2013/12/13, Modify usb config to make adb can use
-              #adbsecure=`getprop ro.adb.secure` 
-              #if  [ "$adbsecure" -ne "1" ]; 
-              #then
-              # 	setprop persist.sys.usb.config diag,serial_smd,serial_tty,rmnet_bam,mass_storage,adb
-              #else
-              #   setprop persist.sys.usb.config mass_storage
-              #fi
-              #else
-              # setprop persist.sys.usb.config mass_storage
-              #endif
-           ;;
-        esac
-#endif  
+
+#ifndef VENDOR_EDIT  
+#Xinhua.Song@BSP modify for usb config in ftm mode 2014-05-30                  
+ftmmode=`getprop ro.wandrfmode`
+persist_usb=`getprop persist.sys.usb.config`
+case "$ftmmode" in
+     "1")
+	if [ "$persist_usb" != "diag,adb" ]; then
+        	 setprop persist.sys.usb.config diag,adb
+	fi
+     ;;
+     "2")
+	if [ "$persist_usb" != "diag,adb" ]; then
+         	setprop persist.sys.usb.config diag,adb
+	fi
+     ;;
+#     *) 
+#         setprop persist.sys.usb.config diag,serial_smd,rmnet_bam,adb				
+#     ;;
+esac
+#endif
 
 #
 # Do target specific things
@@ -183,6 +184,10 @@ case "$target" in
                  echo msm_hsic_host > /sys/bus/platform/drivers/msm_hsic_host/unbind
              fi
          fi
+    ;;
+    "msm8994")
+        echo BAM2BAM_IPA > /sys/class/android_usb/android0/f_rndis_qc/rndis_transports
+        echo 1 > /sys/class/android_usb/android0/f_rndis_qc/max_pkt_per_xfer # Disable RNDIS UL aggregation
     ;;
 esac
 
@@ -234,17 +239,8 @@ esac
 #
 cdromname="/system/etc/cdrom_install.iso"
 platformver=`cat /sys/devices/soc0/hw_platform`
-#ifdef VENDOR_EDIT
-#Jianfeng.Qiu@BSP.Driver, 2014-09-22, Modify for support CD-ROM
-target=`getprop ro.board.platform`
-#endif /* VENDOR_EDIT */
 case "$target" in
-#ifndef VENDOR_EDIT
-#Jianfeng.Qiu@BSP.Driver, 2014-09-22, Modify for support CD-ROM
-#	"msm8226" | "msm8610" | "msm8916")
-#else /* VENDOR_EDIT */
-	"msm8226" | "msm8610")
-#endif /* VENDOR_EDIT */
+	"msm8226" | "msm8610" | "msm8916")
 		case $platformver in
 			"QRD")
 				echo "mounting usbcdrom lun"
@@ -253,24 +249,16 @@ case "$target" in
 				;;
 		esac
 		;;
-#ifdef VENDOR_EDIT
-#Jianfeng.Qiu@BSP.Driver, 2014-09-22, Modify for support CD-ROM
-	"msm8916")
-		echo "/dev/block/mmcblk0p30" > /sys/class/android_usb/android0/f_mass_storage/lun/file
-#endif /* VENDOR_EDIT */
 esac
 
 #
-# Add changes to support diag with rndis
+# Initialize RNDIS Diag option. If unset, set it to 'none'.
 #
 diag_extra=`getprop persist.sys.usb.config.extra`
 if [ "$diag_extra" == "" ]; then
 	setprop persist.sys.usb.config.extra none
 fi
 
-#ifdef VENDOR_EDIT
-#Feilong.Xu@Prd.Network.Data, 2015/04/13, Add for CR754794 and 788518 check for 14047 TC-FDD_SRLTE-03046 fail
-#Enable CPU RPS mask on msm8939 target to fix the out of order packets issue
 # soc_ids for 8916/8939 differentiation
 if [ -f /sys/devices/soc0/soc_id ]; then
 	soc_id=`cat /sys/devices/soc0/soc_id`
@@ -278,11 +266,10 @@ else
 	soc_id=`cat /sys/devices/system/soc/soc0/id`
 fi
 
-# enable rps cpus on msm8939 target
+# enable rps cpus on msm8939/msm8909/msm8929 target
 setprop sys.usb.rps_mask 0
 case "$soc_id" in
-	"239" | "241" | "263")
+	"239" | "241" | "263" | "268" | "269" | "270")
 		setprop sys.usb.rps_mask 10
 	;;
 esac
-#endif /* VENDOR_EDIT */
