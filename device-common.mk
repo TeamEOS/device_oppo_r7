@@ -174,6 +174,10 @@ PRODUCT_PACKAGES += \
     wpa_supplicant.conf \
     dhcpcd.conf
 
+# Android EGL implementation
+PRODUCT_PACKAGES += \
+    libGLES_android
+
 # This device is xhdpi.  However the platform doesn't
 # currently contain all of the bitmaps at xhdpi density so
 # we do this little trick to fall back to the hdpi version
