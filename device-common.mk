@@ -113,6 +113,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
     $(LOCAL_PATH)/configs/keylayout/synaptics_rmi4_i2c.kl:system/usr/keylayout/synaptics_rmi4_i2c.kl
 
+# IRQ balance
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/msm_irqbalance.conf:system/etc/msm_irqbalance.conf
+
 PRODUCT_PACKAGES += \
     charger_res_images
 
