@@ -124,7 +124,12 @@ PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp
+    persist.sys.usb.config=mtp \
+    camera2.portability.force_api=1
+
+# Android EGL implementation
+PRODUCT_PACKAGES += \
+    libGLES_android
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \
