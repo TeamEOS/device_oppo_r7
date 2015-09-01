@@ -16,7 +16,7 @@
 
 LOCAL_PATH := device/oppo/r7
 
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay_common
 
 # Ramdisk
 PRODUCT_COPY_FILES += \
