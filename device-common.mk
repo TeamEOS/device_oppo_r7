@@ -140,7 +140,7 @@ PRODUCT_PACKAGES += \
     memtrack.msm8916 \
     audio.primary.msm8916 \
     audio_policy.msm8916 \
-    lights.qcom \
+    lights.msm8916 \
     audio.a2dp.default \
     audio.usb.default \
     audio.r_submix.default \
