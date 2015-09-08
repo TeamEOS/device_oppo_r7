@@ -120,9 +120,9 @@ PRODUCT_COPY_FILES += \
 
 # Qualcomm
 PRODUCT_PACKAGES += \
-    dsi_config \
-    netmgr_config \
-    qmi_config
+    dsi_config.xml \
+    netmgr_config.xml \
+    qmi_config.xml
 
 PRODUCT_PACKAGES += \
     charger_res_images
