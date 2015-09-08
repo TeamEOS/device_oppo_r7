@@ -82,6 +82,9 @@ BOARD_USES_QC_TIME_SERVICES := true
 # Audio
 BOARD_USES_ALSA_AUDIO := true
 
+# Lights
+TARGET_PROVIDES_LIBLIGHT := true
+
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
 
