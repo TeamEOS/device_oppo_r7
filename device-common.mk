@@ -77,7 +77,7 @@ PRODUCT_COPY_FILES += \
 
 # Sensors
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/sap.conf:system/etc/sap.conf \
+    $(LOCAL_PATH)/configs/sap.conf:system/etc/sap.conf
 
 # Supplicant overlay
 PRODUCT_COPY_FILES += \
@@ -141,36 +141,56 @@ PRODUCT_PACKAGES += \
     VisualizationWallpapers \
     librs_jni
 
-# Hardware modules to build
+# Audio
+PRODUCT_PACKAGES += \
+    audiod \
+    audio.a2dp.default \
+    audio.primary.msm8916 \
+    audio.r_submix.default \
+    audio.usb.default \
+    libqcompostprocbundle \
+    libqcomvisualizer \
+    libqcomvoiceprocessing \
+    tinymix
+
+# Display
 PRODUCT_PACKAGES += \
     hwcomposer.msm8916 \
     gralloc.msm8916 \
     copybit.msm8916 \
-    memtrack.msm8916 \
-    audio.primary.msm8916 \
-    audio_policy.msm8916 \
-    lights.msm8916 \
-    audio.a2dp.default \
-    audio.usb.default \
-    audio.r_submix.default \
-    camera-wrapper.msm8916 \
-    libaudio-resampler \
-    audiod \
-    libqcompostprocbundle \
-    libqcomvisualizer \
-    libqcomvoiceprocessing \
-    power.msm8916 \
+    memtrack.msm8916
+
+# Liblights
+PRODUCT_PACKAGES += \
+    lights.msm8916
+
+# Camera wrapper
+PRODUCT_PACKAGES += \
+    camera-wrapper.msm8916
+
+# Power HAL
+PRODUCT_PACKAGES += \
+    power.msm8916
+
+# Keystore
+PRODUCT_PACKAGES += \
     keystore.msm8916
 
 # OMX
 PRODUCT_PACKAGES += \
-    libmm-omxcore \
-    libdivxdrmdecrypt \
+    libdashplayer \
+    libOmxAacEnc \
+    libOmxAmrEnc \
+    libOmxCore \
+    libOmxEvrcEnc \
+    libOmxQcelp13Enc \
     libOmxVdec \
     libOmxVenc \
-    libOmxCore \
     libstagefrighthw \
-    libc2dcolorconvert
+    qcmediaplayer
+
+PRODUCT_BOOT_JARS += \
+    qcmediaplayer
 
 # WiFi
 PRODUCT_PACKAGES += \
