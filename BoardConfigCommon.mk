@@ -85,6 +85,9 @@ BLUETOOTH_HCI_USE_MCT := true
 PROTOBUF_SUPPORTED := true
 TARGET_RIL_VARIANT := caf
 
+# QCOM Power
+TARGET_POWERHAL_VARIANT := qcom
+
 # Wifi
 BOARD_HAS_QCOM_WLAN              := true
 BOARD_WLAN_DEVICE                := qcwcn
