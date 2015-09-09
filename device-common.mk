@@ -24,6 +24,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ramdisk/init.class_main.sh:root/init.class_main.sh \
     $(LOCAL_PATH)/ramdisk/init.oppo.rc:root/init.oppo.rc \
     $(LOCAL_PATH)/ramdisk/init.oppo.usb.rc:root/init.oppo.usb.rc \
+    $(LOCAL_PATH)/ramdisk/init.qcom.bms.sh:root/init.qcom.bms.sh \
     $(LOCAL_PATH)/ramdisk/init.qcom.class_core.sh:root/init.qcom.class_core.sh \
     $(LOCAL_PATH)/ramdisk/init.qcom.early_boot.sh:root/init.qcom.early_boot.sh \
     $(LOCAL_PATH)/ramdisk/init.qcom.rc:root/init.qcom.rc \
