@@ -160,10 +160,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     lights.msm8916
 
-# Camera wrapper
-PRODUCT_PACKAGES += \
-    camera-wrapper.msm8916
-
 # Power HAL
 PRODUCT_PACKAGES += \
     power.msm8916
