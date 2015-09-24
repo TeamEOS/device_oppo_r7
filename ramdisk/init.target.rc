@@ -86,6 +86,9 @@ on post-fs-data
     mkdir /data/misc/sfs/tz 0700 system system
     mkdir /data/misc/dts 0770 media audio
 
+    chmod 0660 /dev/block/mmcblk0p28
+    chown root system /dev/block/mmcblk0p28
+
 service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
     class late_start
 
@@ -155,6 +158,19 @@ on boot
     chown system drmrpc /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0020/secure_touch
     chown system drmrpc /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0070/secure_touch_enable
     chown system drmrpc /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0070/secure_touch
+
+    # Update touchpanel firmware
+    write /sys/bus/i2c/devices/5-0020/oppo_tp_fw_update 0
+    write /sys/bus/i2c/devices/5-002c/oppo_tp_fw_update 0
+    write /sys/bus/i2c/devices/5-0038/oppo_tp_fw_update 0
+    write /sys/bus/i2c/devices/5-005d/oppo_tp_fw_update 0
+
+    # Qcom cabc
+    chown system system /sys/devices/virtual/graphics/fb0/cabc
+
+    # Silence mode
+    chown system system /sys/devices/virtual/graphics/fb0/closebl
+    chown system system /sys/devices/virtual/graphics/fb0/hbm
 
 service ppd /system/bin/mm-pp-daemon
     class late_start
