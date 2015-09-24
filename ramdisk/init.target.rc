@@ -26,6 +26,8 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+import init.r7plus.rc
+
 on early-init
     mkdir /firmware 0771 system system
     mkdir /system 0777 root root
