@@ -91,6 +91,9 @@ TARGET_RIL_VARIANT := caf
 # QCOM Power
 TARGET_POWERHAL_VARIANT := qcom
 
+# MSM Init
+TARGET_INIT_VENDOR_LIB := libinit_msm_r7
+
 # Wifi
 BOARD_HAS_QCOM_WLAN              := true
 BOARD_WLAN_DEVICE                := qcwcn

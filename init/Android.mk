@@ -1,4 +1,4 @@
-ifeq ($(TARGET_INIT_VENDOR_LIB),libinit_msm)
+ifeq ($(TARGET_INIT_VENDOR_LIB),libinit_msm_r7)
 
 LOCAL_PATH := $(call my-dir)
 LIBINIT_MSM_PATH := $(call my-dir)
@@ -15,7 +15,7 @@ ifeq ($(LIBINIT_USE_MSM_DEFAULT),true)
 else
   LOCAL_SRC_FILES += init_$(TARGET_BOARD_PLATFORM).c
 endif
-LOCAL_MODULE := libinit_msm
+LOCAL_MODULE := libinit_msm_r7
 include $(BUILD_STATIC_LIBRARY)
 
 endif
