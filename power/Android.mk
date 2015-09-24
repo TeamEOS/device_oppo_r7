@@ -1,5 +1,6 @@
 LOCAL_PATH := $(call my-dir)
 
+ifeq ($(TARGET_POWERHAL_VARIANT),r7)
 ifeq ($(call is-vendor-board-platform,QCOM),true)
 
 # HAL module implemenation stored in
@@ -43,4 +44,5 @@ LOCAL_MODULE := power.qcom
 LOCAL_MODULE_TAGS := optional
 include $(BUILD_SHARED_LIBRARY)
 
+endif
 endif

@@ -162,7 +162,7 @@ PRODUCT_PACKAGES += \
 
 # Power HAL
 PRODUCT_PACKAGES += \
-    power.msm8916
+    power.qcom
 
 # Keystore
 PRODUCT_PACKAGES += \
