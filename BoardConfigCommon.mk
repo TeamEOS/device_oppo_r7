@@ -21,6 +21,10 @@ TARGET_BOARD_PLATFORM := msm8916
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno405
 TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
 
+# Bootloader
+TARGET_NO_BOOTLOADER := true
+TARGET_BOOTLOADER_BOARD_NAME := MSM8916
+
 # Architecture
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
@@ -37,6 +41,7 @@ TARGET_2ND_CPU_VARIANT := cortex-a53
 TARGET_USES_64_BIT_BINDER := true
 
 # Kernel
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom androidboot.selinux=permissive msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
@@ -71,14 +76,10 @@ NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
 BOARD_USES_QC_TIME_SERVICES := true
 
 # Audio
-BOARD_USES_ALSA_AUDIO:= true
+BOARD_USES_ALSA_AUDIO := true
 
 # Camera
-COMMON_GLOBAL_CFLAGS += -DOPPO_CAMERA_HARDWARE
 USE_DEVICE_SPECIFIC_CAMERA := true
-
-# Disable secure discard because it's SLOW
-BOARD_SUPPRESS_SECURE_ERASE := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -115,9 +116,6 @@ TARGET_USERIMAGES_USE_EXT4 := true
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
-
-# Force SeLinux into permissive mode
-COMMON_GLOBAL_CFLAGS += -DFORCE_SELINUX_PERMISSIVE
 
 # Recovery
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/ramdisk/fstab.qcom
