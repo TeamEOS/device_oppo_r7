@@ -46,7 +46,7 @@ on property:sys.oppo.cpu_idle=false
     write /sys/module/lpm_levels/system/performance/cpu0/standalone_pc/idle_enabled 0
     write /sys/module/lpm_levels/system/performance/cpu0/wfi/idle_enabled 0
 
-service power-control /system/bin/sh /system/etc/init.oppo.qcom.power.sh &
+service power-control /system/bin/sh /system/etc/init.oppo.qcom.power.sh
    class main
    user root
    group root
