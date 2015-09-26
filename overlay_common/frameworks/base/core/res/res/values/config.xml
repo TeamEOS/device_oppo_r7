@@ -214,13 +214,6 @@
     -->
     <bool name="config_wifiDisplaySupportsProtectedBuffers">true</bool>
 
-    <!-- Minimum span needed to begin a touch scaling gesture.
-         If the span is equal to or greater than this size, a scaling gesture
-         will begin, where supported. (See android.view.ScaleGestureDetector)
-
-         This value has been tuned for the "mako" device. -->
-    <dimen name="config_minScalingSpan">35mm</dimen>
-
     <!-- The default iface on which to monitor data use -->
     <string name="config_datause_iface" translatable="false">rmnet_usb0</string>
 
@@ -235,14 +228,6 @@
     <!-- Disable lockscreen translucent decor by default -->
     <bool name="config_enableLockScreenTranslucentDecor">true</bool>
 
-    <string-array translatable="false" name="config_globalActionsList">
-        <item>power</item>
-        <item>reboot</item>
-        <item>airplane</item>
-        <item>users</item>
-        <item>silent</item>
-    </string-array>
-
     <!-- Whether Multiuser UI should be shown -->
     <bool name="config_enableMultiUserUI">true</bool>
 
@@ -253,15 +238,6 @@
     <string name="config_dozeComponent">com.android.systemui/com.android.systemui.doze.DozeService</string>
     <bool name="config_dozeAfterScreenOff">true</bool>
     <bool name="config_powerDecoupleInteractiveModeFromDisplay">true</bool>
-
-    <!-- Control the behavior when the user long presses the home button.
-        0 - Nothing
-        1 - Recent apps view in SystemUI
-        2 - Launch assist intent
-        This needs to match the constants in
-        policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
-    -->
-    <integer name="config_longPressOnHomeBehavior">1</integer>
 
     <!-- Is the device capable of hot swapping an ICC Card -->
     <bool name="config_hotswapCapable">true</bool>
