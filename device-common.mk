@@ -112,7 +112,7 @@ PRODUCT_COPY_FILES += \
 
 # IRQ balance
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/msm/msm_irqbalance.conf:system/etc/msm_irqbalance.conf
+    $(LOCAL_PATH)/configs/msm/msm_irqbalance.conf:system/vendor/etc/msm_irqbalance.conf
 
 # Qualcomm
 PRODUCT_PACKAGES += \
